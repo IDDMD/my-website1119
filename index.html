@@ -78,7 +78,19 @@
             font-size: 3em;
         }
         section {
+            margin: 50px auto;
             padding: 20px;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* 初始透明度為 0 */
+            transform: translateY(50px); /* 初始位置向下偏移 */
+            transition: opacity 0.8s ease, transform 0.8s ease; /* 添加過渡效果 */
+        }
+        section.show {
+            opacity: 1; /* 滑入後的透明度 */
+            transform: translateY(0); /* 滑入後的位置 */
         }
         .interactive {
             display: flex;
@@ -237,6 +249,23 @@
             </div>
         </div>
     </section>
+    <script>
+        // 使用 Intersection Observer API
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show'); // 添加 class "show"
+                    observer.unobserve(entry.target); // 滾動過一次後不再重複監測
+                }
+            });
+        });
+
+        // 選擇所有的區塊
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
     <footer>
         <p>© 2024 大葉落羽松濕地</p>
 
